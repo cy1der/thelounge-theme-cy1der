@@ -1,0 +1,4 @@
+.github/
+node_modules/
+preview.png
+.stylelintrc.yml
