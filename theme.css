@@ -10,8 +10,8 @@
   --window-heading-color: #6e6e6e;
   --date-marker-color: #3b82f6;
   --unread-marker-color: rgb(244 71 71 / 65%);
-  --highlight-bg-color: #2a2a2a;
-  --highlight-border-color: #dcdcaa;
+  --highlight-bg-color: rgb(245 158 11 / 14%);
+  --highlight-border-color: #f59e0b;
 }
 
 html {
@@ -55,6 +55,60 @@ html {
   #chat .msg .time {
     opacity: 1;
   }
+}
+
+.mentions-popup .msg {
+  margin: 0;
+  padding: 4px 0;
+  background: transparent !important;
+}
+
+.mentions-popup .msg:hover,
+.mentions-popup .msg.active,
+.mentions-popup .msg.message:hover,
+.mentions-popup .msg.message.active {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+.mentions-popup .msg .mentions-info {
+  background: transparent;
+}
+
+.mentions-popup .msg .content {
+  background: var(--highlight-bg-color);
+  border-left: 5px solid var(--highlight-border-color);
+  margin-top: 6px;
+  padding: 6px 8px;
+  padding-left: 5px;
+  border-radius: 4px;
+  transition: none;
+  color: var(--body-color);
+}
+
+[data-jump-to]:is(.mentions-popup .msg .content):hover {
+  background-color: var(--highlight-bg-color) !important;
+  color: var(--body-color) !important;
+}
+
+.mentions-popup .msg .content:hover {
+  background-color: var(--highlight-bg-color) !important;
+  color: var(--body-color) !important;
+}
+
+#chat .mentions-popup .msg .time {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+.mentions-popup .msg-dismiss {
+  color: #f87171;
+}
+
+.mentions-popup .msg-dismiss:hover,
+.mentions-popup .msg-dismiss:focus {
+  color: #f44747 !important;
+  background: transparent;
 }
 
 #chat
@@ -129,6 +183,23 @@ html {
   .user {
   color: inherit;
   font-weight: 500;
+}
+
+#chat .msg[data-type="action"] {
+  font-size: 14px;
+}
+
+#chat .msg[data-type="action"] .from {
+  display: none;
+}
+
+#chat .msg[data-type="action"] .content,
+#chat .msg[data-type="action"] .user {
+  color: #f59e0b;
+}
+
+#chat .msg[data-type="action"] .time {
+  font-size: 0.82em;
 }
 
 #chat .msg[data-type="plugin"],
@@ -281,6 +352,10 @@ html {
   min-width: 0;
 }
 
+#chat .msg.self[data-type="message"] .content {
+  color: var(--body-color);
+}
+
 #chat .msg[data-type="message"].previous-source {
   grid-template-areas: "content time";
   row-gap: 0;
@@ -374,6 +449,56 @@ html {
   padding: 0;
 }
 
+#chat .chat-view[data-type="channel"] .msg.highlight[data-type="message"] {
+  background-color: transparent;
+  border-left: 0;
+  column-gap: 0;
+}
+
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"]
+  .content {
+  background-color: var(--highlight-bg-color);
+  border-left: 5px solid var(--highlight-border-color);
+  padding-left: 5px;
+  padding-right: 0;
+}
+
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"]
+  .time {
+  opacity: 1;
+  background-color: var(--highlight-bg-color);
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  margin-left: 0;
+  padding-left: 8px;
+  padding-right: 6px;
+  color: transparent;
+}
+
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"]:hover
+  .time {
+  color: var(--body-color-muted);
+}
+
+.mentions-popup .dismiss-all-mentions {
+  color: #f44747 !important;
+  border-color: #f44747 !important;
+}
+
+.mentions-popup .dismiss-all-mentions:hover,
+.mentions-popup .dismiss-all-mentions:focus {
+  color: #f44747 !important;
+  border-color: #f44747 !important;
+  background: rgb(244 71 71 / 14%) !important;
+}
+
 #form {
   background: #161616;
   border-top: 1px solid #2a2a2a;
@@ -383,7 +508,7 @@ html {
   display: unset;
   color: #60a5fa;
   background: #161616;
-  padding: 0 10px;
+  padding: 0 8px 0 4px;
   border-right: 1px solid #2a2a2a;
 }
 
@@ -525,7 +650,7 @@ form.message-search .input-wrapper input::placeholder {
   box-shadow: 0 4px 12px rgb(0 0 0 / 50%);
 }
 
-.context-menu-item {
+.context-menu-item:not([class*="context-menu-group-"]) {
   color: #d4d4d4;
 }
 
@@ -533,8 +658,8 @@ form.message-search .input-wrapper input::placeholder {
   border-top-color: #2e2e2e;
 }
 
-.context-menu-item:hover,
-.context-menu-item.active {
+.context-menu-item:not([class*="context-menu-group-"]):hover,
+.context-menu-item:not([class*="context-menu-group-"]).active {
   background: rgb(255 255 255 / 6%);
   color: #d4d4d4;
 }
@@ -640,6 +765,29 @@ input[type="button"] {
   background: rgb(59 130 246 / 12%);
 }
 
+#chat .show-more {
+  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 0;
+  width: 100%;
+}
+
+#chat .show-more .btn {
+  width: 100%;
+  margin: 0;
+  color: #d4d4d4;
+  border-color: #2e2e2e;
+  background: #121212;
+}
+
+#chat .show-more .btn:hover,
+#chat .show-more .btn:focus,
+#chat .show-more .btn:disabled {
+  color: #d4d4d4;
+  background: #1e1e1e;
+  border-color: #2e2e2e;
+}
+
 #version-checker.error {
   color: #fecaca;
   background-color: rgb(127 29 29 / 35%);
@@ -703,7 +851,6 @@ input[type="button"] {
 #context-menu .context-menu-item[class*="context-menu-group-"]:hover,
 #context-menu .context-menu-item[class*="context-menu-group-"].active {
   background: transparent !important;
-  color: #facc15 !important;
   cursor: default;
   pointer-events: none;
 }
@@ -760,96 +907,127 @@ kbd {
 .user.color-1 {
   color: #f87171;
 }
+
 .user.color-2 {
   color: #fb923c;
 }
+
 .user.color-3 {
   color: #fbbf24;
 }
+
 .user.color-4 {
   color: #facc15;
 }
+
 .user.color-5 {
   color: #a3e635;
 }
+
 .user.color-6 {
   color: #4ade80;
 }
+
 .user.color-7 {
   color: #34d399;
 }
+
 .user.color-8 {
   color: #2dd4bf;
 }
+
 .user.color-9 {
   color: #22d3ee;
 }
+
 .user.color-10 {
   color: #38bdf8;
 }
+
 .user.color-11 {
   color: #60a5fa;
 }
+
 .user.color-12 {
   color: #818cf8;
 }
+
 .user.color-13 {
   color: #a78bfa;
 }
+
 .user.color-14 {
   color: #c084fc;
 }
+
 .user.color-15 {
   color: #e879f9;
 }
+
 .user.color-16 {
   color: #f472b6;
 }
+
 .user.color-17 {
   color: #fca5a5;
 }
+
 .user.color-18 {
   color: #fdba74;
 }
+
 .user.color-19 {
   color: #fcd34d;
 }
+
 .user.color-20 {
   color: #fde047;
 }
+
 .user.color-21 {
   color: #bef264;
 }
+
 .user.color-22 {
   color: #86efac;
 }
+
 .user.color-23 {
   color: #6ee7b7;
 }
+
 .user.color-24 {
   color: #5eead4;
 }
+
 .user.color-25 {
   color: #67e8f9;
 }
+
 .user.color-26 {
   color: #7dd3fc;
 }
+
 .user.color-27 {
   color: #93c5fd;
 }
+
 .user.color-28 {
   color: #a5b4fc;
 }
+
 .user.color-29 {
   color: #c4b5fd;
 }
+
 .user.color-30 {
   color: #d8b4fe;
 }
+
 .user.color-31 {
   color: #f0abfc;
 }
+
 .user.color-32 {
   color: #f9a8d4;
 }
