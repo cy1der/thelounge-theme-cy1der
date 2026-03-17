@@ -1,0 +1,33 @@
+{
+  "name": "thelounge-theme-cy1der",
+  "version": "1.0.0",
+  "description": "cy1der's The Lounge theme",
+  "keywords": [
+    "thelounge",
+    "thelounge-theme"
+  ],
+  "thelounge": {
+    "name": "cy1der",
+    "type": "theme",
+    "css": "theme.css"
+  },
+  "homepage": "https://github.com/cy1der/thelounge-theme-cy1der#readme",
+  "bugs": {
+    "url": "https://github.com/cy1der/thelounge-theme-cy1der/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cy1der/thelounge-theme-cy1der.git"
+  },
+  "license": "MIT",
+  "author": "cy1der",
+  "type": "commonjs",
+  "main": "package.json",
+  "scripts": {
+    "lint": "stylelint theme.css --fix lax"
+  },
+  "devDependencies": {
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}
