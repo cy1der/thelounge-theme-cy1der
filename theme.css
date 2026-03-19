@@ -525,7 +525,7 @@ html {
   margin-left: 0;
   padding-left: 8px;
   padding-right: 6px;
-  color: transparent;
+  color: var(--body-color-muted);
 }
 
 #chat
@@ -579,7 +579,7 @@ html {
   margin-left: 0;
   padding-left: 8px;
   padding-right: 6px;
-  color: transparent;
+  color: var(--body-color-muted);
 }
 
 #chat
@@ -615,6 +615,20 @@ html {
   .msg.highlight[data-type="message"]:hover
   .time {
   color: var(--body-color-muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #chat
+    .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"]
+    .time,
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"]
+    .time {
+    color: transparent;
+  }
 }
 
 .mentions-popup .dismiss-all-mentions {
