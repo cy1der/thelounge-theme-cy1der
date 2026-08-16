@@ -360,12 +360,13 @@ html {
 #chat .msg[data-type="message"] {
   display: grid;
   grid-template-areas:
-    "from from"
-    "content time";
-  grid-template-columns: minmax(0, 1fr) max-content;
+    "from from from"
+    "content actions time";
+  grid-template-columns: minmax(0, 1fr) max-content max-content;
   gap: 1px 12px;
   align-items: start;
   padding: 10px 10px 2px;
+  position: relative;
 }
 
 #chat .msg[data-type="message"] .from {
@@ -396,12 +397,68 @@ html {
   min-width: 0;
 }
 
+#chat .msg[data-type="message"] .actions {
+  grid-area: actions;
+  position: static;
+  top: auto;
+  right: auto;
+  z-index: auto;
+  height: auto;
+  margin-left: 0;
+  align-self: center;
+}
+
+#chat .msg[data-type="message"] .actions:empty {
+  display: none;
+}
+
+#chat .msg[data-type="message"]:has(.actions:empty) {
+  grid-template-areas:
+    "from from"
+    "content time";
+  grid-template-columns: minmax(0, 1fr) max-content;
+}
+
+#chat .msg[data-type="message"].previous-source:has(.actions:empty) {
+  grid-template-areas: "content time";
+}
+
+#chat .msg[data-type="message"] .reply-button {
+  width: 18px;
+  height: 18px;
+  color: var(--body-color-muted);
+  border-radius: 4px;
+  transition:
+    color 0.1s,
+    background-color 0.1s;
+}
+
+#chat .msg[data-type="message"] .reply-button > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#chat .msg[data-type="message"] .reply-button i {
+  width: auto !important;
+  font-size: 0.72em;
+  margin-top: 2px;
+}
+
+#chat .msg[data-type="message"] .reply-button:hover,
+#chat .msg[data-type="message"] .reply-button:focus {
+  color: var(--button-color);
+  background: rgb(59 130 246 / 12%);
+}
+
 #chat .msg.self[data-type="message"] .content {
   color: var(--body-color);
 }
 
 #chat .msg[data-type="message"].previous-source {
-  grid-template-areas: "content time";
+  grid-template-areas: "content actions time";
   row-gap: 0;
   padding: 2px 10px;
 }
@@ -511,6 +568,7 @@ html {
   border-left: 5px solid var(--highlight-border-color);
   padding-left: 5px;
   padding-right: 0;
+  align-self: stretch;
 }
 
 #chat
@@ -533,6 +591,40 @@ html {
   .msg.highlight[data-type="message"]:hover
   .time {
   color: var(--body-color-muted);
+}
+
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"]
+  .actions {
+  background-color: var(--highlight-bg-color);
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"]
+  .reply-action {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"]:hover
+  .reply-action,
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"]:focus-within
+  .reply-action,
+#chat
+  .chat-view[data-type="channel"]
+  .msg.highlight[data-type="message"].is-focused
+  .reply-action {
+  opacity: 1;
 }
 
 #chat .chat-view .result[data-jump-to],
@@ -564,6 +656,7 @@ html {
   border-left: 5px solid var(--highlight-border-color) !important;
   padding-left: 5px;
   padding-right: 0;
+  align-self: stretch;
 }
 
 #chat
@@ -617,6 +710,45 @@ html {
   color: var(--body-color-muted);
 }
 
+#chat
+  .chat-view
+  .result[data-jump-to]
+  .msg.highlight[data-type="message"]
+  .actions {
+  background-color: var(--highlight-bg-color) !important;
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
+#chat
+  .chat-view
+  .result[data-jump-to]
+  .msg.highlight[data-type="message"]
+  .reply-action {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+#chat
+  .chat-view
+  .result[data-jump-to]
+  .msg.highlight[data-type="message"]:hover
+  .reply-action,
+#chat
+  .chat-view
+  .result[data-jump-to]
+  .msg.highlight[data-type="message"]:focus-within
+  .reply-action,
+#chat
+  .chat-view
+  .result[data-jump-to]
+  .msg.highlight[data-type="message"].is-focused
+  .reply-action {
+  opacity: 1;
+}
+
 @media (hover: hover) and (pointer: fine) {
   #chat
     .chat-view[data-type="channel"]
@@ -629,6 +761,11 @@ html {
     .time {
     color: transparent;
   }
+}
+
+#chat .chat-view[data-type="channel"] .msg.highlight[data-type="message"] .actions,
+#chat .chat-view .result[data-jump-to] .msg.highlight[data-type="message"] .actions {
+  opacity: 1;
 }
 
 .mentions-popup .dismiss-all-mentions {
@@ -1274,15 +1411,27 @@ kbd {
 @media (width <= 480px) {
   #chat .msg[data-type="message"] {
     grid-template-areas:
-      "from"
-      "content";
-    grid-template-columns: 1fr;
+      "from from"
+      "content actions";
+    grid-template-columns: 1fr max-content;
+    gap: 1px 6px;
     padding: 8px 8px 2px;
   }
 
   #chat .msg[data-type="message"].previous-source {
-    grid-template-areas: "content";
+    grid-template-areas: "content actions";
     padding: 2px 8px;
+  }
+
+  #chat .msg[data-type="message"]:has(.actions:empty) {
+    grid-template-areas:
+      "from"
+      "content";
+    grid-template-columns: 1fr;
+  }
+
+  #chat .msg[data-type="message"].previous-source:has(.actions:empty) {
+    grid-template-areas: "content";
   }
 
   #chat .msg[data-type="message"] .time,
@@ -1308,17 +1457,30 @@ kbd {
 
   #chat .chat-view[data-type="channel"] .msg.highlight[data-type="message"] {
     grid-template-areas:
-      "from"
-      "content";
-    grid-template-columns: 1fr;
+      "from from"
+      "content actions";
+    grid-template-columns: 1fr max-content;
     gap: 1px 0 !important;
   }
 
   #chat .chat-view .result[data-jump-to] .msg.highlight[data-type="message"] {
     grid-template-areas:
+      "from from"
+      "content actions";
+    grid-template-columns: 1fr max-content;
+    gap: 1px 0 !important;
+  }
+
+  #chat
+    .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"]:has(.actions:empty),
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"]:has(.actions:empty) {
+    grid-template-areas:
       "from"
       "content";
     grid-template-columns: 1fr;
-    gap: 1px 0 !important;
   }
 }
