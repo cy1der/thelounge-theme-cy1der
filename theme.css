@@ -1434,7 +1434,6 @@ kbd {
     grid-template-areas: "content";
   }
 
-  #chat .msg[data-type="message"] .time,
   #chat
     .msg:not(
       [data-type="message"],
@@ -1451,8 +1450,88 @@ kbd {
     display: none;
   }
 
-  #chat .chat-view .msg.highlight[data-type="message"] .time {
-    display: none !important;
+  #chat .msg[data-type="message"]:not(.previous-source) .from {
+    overflow: auto hidden;
+    min-width: 0;
+    padding-right: 52px;
+    scrollbar-width: none;
+    overscroll-behavior-x: none;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #chat
+    .msg[data-type="message"]:not(.previous-source)
+    .from::-webkit-scrollbar {
+    height: 0;
+  }
+
+  #chat .msg[data-type="message"].previous-source .time {
+    display: none;
+  }
+
+  #chat .msg[data-type="message"]:not(.previous-source) .time {
+    grid-area: from;
+    place-self: start end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    z-index: 1;
+  }
+
+  #chat .msg[data-type="message"]:not(.previous-source):hover .time,
+  #chat .msg[data-type="message"]:not(.previous-source):focus-within .time,
+  #chat .msg[data-type="message"]:not(.previous-source).is-focused .time {
+    opacity: 1;
+  }
+
+  #chat
+    .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"]:not(.previous-source)
+    .time,
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"]:not(.previous-source)
+    .time {
+    opacity: 0;
+    background-color: transparent !important;
+    display: block;
+    place-self: start end;
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0;
+    color: var(--body-color-muted);
+  }
+
+  #chat
+    .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"]:not(.previous-source):hover
+    .time,
+  #chat
+    .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"]:not(.previous-source):focus-within
+    .time,
+  #chat
+    .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"]:not(.previous-source).is-focused
+    .time,
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"]:not(.previous-source):hover
+    .time,
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"]:not(.previous-source):focus-within
+    .time,
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"]:not(.previous-source).is-focused
+    .time {
+    opacity: 1;
   }
 
   #chat .chat-view[data-type="channel"] .msg.highlight[data-type="message"] {
