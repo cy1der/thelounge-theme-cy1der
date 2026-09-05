@@ -1467,7 +1467,7 @@ kbd {
   }
 
   #chat .msg[data-type="message"].previous-source .time {
-    display: none;
+    display: none !important;
   }
 
   #chat .msg[data-type="message"]:not(.previous-source) .time {
@@ -1552,6 +1552,21 @@ kbd {
 
   #chat
     .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"].previous-source {
+    grid-template-areas: "content actions";
+    grid-template-columns: 1fr max-content;
+  }
+
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"].previous-source {
+    grid-template-areas: "content actions";
+    grid-template-columns: 1fr max-content;
+  }
+
+  #chat
+    .chat-view[data-type="channel"]
     .msg.highlight[data-type="message"]:has(.actions:empty),
   #chat
     .chat-view
@@ -1560,6 +1575,17 @@ kbd {
     grid-template-areas:
       "from"
       "content";
+    grid-template-columns: 1fr;
+  }
+
+  #chat
+    .chat-view[data-type="channel"]
+    .msg.highlight[data-type="message"].previous-source:has(.actions:empty),
+  #chat
+    .chat-view
+    .result[data-jump-to]
+    .msg.highlight[data-type="message"].previous-source:has(.actions:empty) {
+    grid-template-areas: "content";
     grid-template-columns: 1fr;
   }
 }
